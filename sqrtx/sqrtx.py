@@ -1,8 +1,7 @@
 class Solution:
     def mySqrt(self, x: int) -> int:
         """
-        We can create an array going up to 1/2 of the integer.
-        This is because the square root of a number is guranteed to be less than half of the number for any value above 4. 
+        The square root of a number is guranteed to be less than half of the number for any value above 4. 
         """
         if x <= 1:
             return x
