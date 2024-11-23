@@ -1,0 +1,1809 @@
+* Algorithms
+** Searching
+*** Binary Search
+
+Time Complexity: O(logn)
+
+#+BEGIN_SRC python
+def binary_search(array, target):
+    left = 0
+    right = len(array) - 1
+
+    while left <= right:
+        mid = (right + left) // 2
+
+        if array[mid] == target:
+            return mid
+        elif array[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1
+#+END_SRC
+
+*** Breadth-First Search (BFS)
+
+[[https://www.youtube.com/watch?v=HZ5YTanv5QE&ab_channel=MichaelSambol][Breadth-first search in 4 minutes - YouTube]]
+
+The time complexity of the Breadth First Search (BFS) algorithm is *O(|V| + |E|)*, where:
+- *|V|* is the number of vertices (nodes).
+- *|E|* is the number of edges in the graph.
+
+#+BEGIN_SRC python
+# Representation of the graph
+graph = {
+    'A': ['B', 'C'],
+    'B': ['D', 'E', 'F'],
+    'C': ['G'],
+    'D': [],
+    'E': [],
+    'F': ['H'],
+    'G': ['I'],
+    'H': [],
+    'I': [],
+}
+#+END_SRC
+
+#+BEGIN_SRC python
+def bfs(graph, node):
+    visited = []  # List to track visited nodes
+    queue = []    # Queue for BFS
+
+    visited.append(node)
+    queue.append(node)
+
+    while queue:
+        s = queue.pop(0)
+        print(s, end=" ")
+
+        for n in graph[s]:
+            if n not in visited:
+                visited.append(n)
+                queue.append(n)
+#+END_SRC
+
+
+*** Depth-First Search (DFS)
+
+[[https://www.youtube.com/watch?v=Urx87-NMm6c&ab_channel=MichaelSambol][Depth-first search in 4 minutes - YouTube]]
+
+The time complexity of the Depth First Search (DFS) algorithm is *O(|V| + |E|)*, where:
+- *|V|* is the number of vertices (nodes).
+- *|E|* is the number of edges in the graph.
+
+#+BEGIN_SRC python
+# Representation of the graph
+graph = {
+    'A': ['B', 'G'],
+    'B': ['C', 'D', 'E'],
+    'C': [],
+    'D': [],
+    'E': ['F'],
+    'F': [],
+    'G': ['H'],
+    'H': ['I'],
+    'I': [],
+}
+#+END_SRC
+
+#+BEGIN_SRC python
+from collections import deque
+
+def dfs(graph, node):
+    visited = []  # List to track visited nodes
+    stack = deque()  # Stack for iterative DFS
+
+    visited.append(node)
+    stack.append(node)
+
+    while stack:
+        s = stack.pop()
+        print(s, end=" ")
+
+        for n in reversed(graph[s]):
+            if n not in visited:
+                visited.append(n)
+                stack.append(n)
+#+END_SRC
+
+*** Two Pointer
+*** Sliding Window
+
+https://leetcode.com/explore/featured/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4502/
+
+*** Knuth-Morris-Pratt(KMP)
+
+** Sorting
+
+[[https://www.youtube.com/watch?v=__vX2sjlpXU&ab_channel=MichaelSambol][Big-O notation in 5 minutes - YouTube]]
+[[https://www.youtube.com/watch?v=AAwYzYkjNTg][Explaining EVERY Sorting Algorithm (part 1) - YouTube]]
+[[https://sortvisualizer.com/][Sort Visualizer]]
+[[https://www.bigocheatsheet.com/][Big-O Algorithm Complexity Cheat Sheet (Know Thy Complexities!) @ericdrowell]]
+
+| Algorithm      | Time Complexity (Best) | Time Complexity (Average) | Time Complexity (Worst) | Space Complexity | Stability | Adaptive Nature | In-place |
+|----------------+------------------------+---------------------------+-------------------------+------------------+-----------+-----------------+----------|
+| Bubble Sort    | O(n)                   | O(n^2)                    | O(n^2)                  | O(1)             | Yes       | Yes             | Yes      |
+| Selection Sort | O(n^2)                 | O(n^2)                    | O(n^2)                  | O(1)             | No        | No              | Yes      |
+| Insertion Sort | O(n)                   | O(n^2)                    | O(n^2)                  | O(1)             | Yes       | Yes             | Yes      |
+| Quick Sort     | O(n log n)             | O(n log n)                | O(n^2)                  | O(log n)         | No        | No              | Yes      |
+| Merge Sort     | O(n log n)             | O(n log n)                | O(n log n)              | O(n)             | Yes       | No              | No       |
+| Heap Sort      | O(n log n)             | O(n log n)                | O(n log n)              | O(1)             | No        | No              | Yes      |
+| Radix Sort     | O(nk)                  | O(nk)                     | O(nk)                   | O(n+k)           | Yes       | No              | No       |
+| Counting Sort  | O(n+k)                 | O(n+k)                    | O(n+k)                  | O(k)             | Yes       | No              | Yes      |
+
+*** Selection Sort
+
+[[https://www.youtube.com/watch?v=g-PGLbMth_g&ab_channel=MichaelSambol][Selection sort in 3 minutes - YouTube]]
+
+#+BEGIN_SRC
+for (j = 0; j < n-1; j++)
+
+    int iMin = j;
+
+    for (i = j+1; i < n; i++)
+      if (a[i] < a[iMin])
+        iMin = i;
+
+    if (iMin != j)
+      swap (a[j], a[iMin]);
+
+// O(n^2)
+#+END_SRC
+
+
+#+BEGIN_SRC python
+def selection_sort(self, lst: List[int]) -> None:
+    """
+    Mutates lst so that it is sorted via selecting the minimum element and
+    swapping it with the corresponding index
+    """
+
+    for i in range(len(lst)):
+        min_index = i
+
+        for j in range(i + 1, len(lst)):
+            # Update minimum index
+            if lst[j] < lst[min_index]:
+                min_index = j
+        # Swap current index with minimum element in rest of list
+        lst[min_index], lst[i] = lst[i], lst[min_index]
+#+END_SRC
+
+#+BEGIN_SRC java
+public class Solution {
+
+    public void bubbleSort(int[] arr) {
+
+        // Mutates arr so that it is sorted via swapping adjacent elements the arr is sorted.
+        boolean hasSwapped = true;
+
+        while (hasSwapped) {
+
+            hasSwapped = false;
+
+            for (int i = 0; i < arr.length - 1; i++) {
+
+                if (arr[i] > arr[i + 1]) {
+
+                    // Swap adjacent elements
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    hasSwapped = true;
+                }
+            }
+        }
+    }
+}
+#+END_SRC
+
+*** Bubble Sort
+
+[[https://www.youtube.com/watch?v=xli_FI7CuzA][Bubble sort in 2 minutes - YouTube]]
+
+#+BEGIN_SRC
+for i from 1 to N
+  for j from 0 to N - 1
+    if a[j] > a[j + 1]
+      swap (a[j], a[j + 1])
+
+// O(n^2)
+#+END_SRC
+
+#+BEGIN_SRC python
+class Solution:
+
+    def bubble_sort(self, lst: List[int]) -> None:
+        """
+        Mutates lst so that it is sorted via swapping adjacent elements until
+        the entire lst is sorted.
+        """
+
+        has_swapped = True
+
+        # if no swap occurred, lst is sorted
+        while has_swapped:
+            has_swapped = False
+
+            for i in range(len(lst) - 1):
+
+                if lst[i] > lst[i + 1]:
+
+                    # Swap adjacent elements
+                    lst[i], lst[i + 1] = lst[i + 1], lst[i]
+                    has_swapped = True
+#+END_SRC
+
+
+#+BEGIN_SRC java
+public class Solution {
+
+    public void bubbleSort(int[] arr) {
+
+        // Mutates arr so that it is sorted via swapping adjacent elements the arr is sorted.
+        boolean hasSwapped = true;
+
+        while (hasSwapped) {
+
+            hasSwapped = false;
+
+            for (int i = 0; i < arr.length - 1; i++) {
+
+                if (arr[i] > arr[i + 1]) {
+
+                    // Swap adjacent elements
+                    int temp = arr[i];
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
+                    hasSwapped = true;
+                }
+            }
+        }
+    }
+}
+#+END_SRC
+
+*** Insertion Sort
+
+[[https://www.youtube.com/watch?v=JU767SDMDvA&ab_channel=MichaelSambol][Insertion sort in 2 minutes - YouTube]]
+
+#+BEGIN_SRC
+for i:1 to length(A) - 1
+  j = i
+   while j > 0 and A[j-1] > A[j]
+     swap A[j] and A[j-1]
+     j = j - 1
+#+END_SRC
+
+#+BEGIN_SRC python
+    def function(self, list):
+
+        for i in range(len(list)):
+
+            currentIndex = i
+
+            while currentIndex > 0 and list[currentIndex] < list[currentIndex-1]:
+                list[currentIndex], list[currentIndex-1] = list[currentIndex-1], list[currentIndex]
+                currentIndex -=1
+
+        return list
+#+END_SRC
+
+*** Heap Sort
+
+[[https://www.youtube.com/watch?v=2DmK_H7IdTo][Heap sort in 4 minutes - YouTube]]
+
+O(nlogn)
+build-max-heap: O(n)
+heapify: O(logn), called n-1 times
+
+#+BEGIN_SRC
+Heapsort (A as array)
+  BuildMaxHeap(A)
+  for i = n to 1
+    swap (A[1],A[i])
+    n = n - 1
+    Heapify(A, 1)
+
+BuildMaxHeap(A as array)
+  n = elements_in(A)
+  for i = floor (n/2) to 1
+     Heapify (A,i)
+
+Heapify(A as array, i as int)
+  left = 2i
+  right = 2i + 1
+
+  if (left<=n) and (A[left] > A[i])
+     max = left
+  else
+     max = i
+
+  if (right<=n) and (A[right]>A[max])
+    max = right
+
+  if (max != i)
+     swap (A[i],A[max])
+     Heapify(A,max)
+#+END_SRC
+
+#+BEGIN_SRC python
+class Solution:
+
+    def heap_sort(self, lst: List[int]) -> None:
+        """
+        Mutates elements in lst by utilizing the heap data structure
+        """
+
+        def max_heapify(heap_size, index):
+
+            left, right = 2 * index + 1, 2 * index + 2
+
+            largest = index
+
+            if left < heap_size and lst[left] > lst[largest]:
+                largest = left
+
+            if right < heap_size and lst[right] > lst[largest]:
+                largest = right
+
+            if largest != index:
+                lst[index], lst[largest] = lst[largest], lst[index]
+                max_heapify(heap_size, largest)
+
+
+
+        # heapify original lst
+        for i in range(len(lst) // 2 - 1, -1, -1):
+
+            max_heapify(len(lst), i)
+
+        # use heap to sort elements
+        for i in range(len(lst) - 1, 0, -1):
+
+            # swap last element with first element
+            lst[i], lst[0] = lst[0], lst[i]
+
+            # note that we reduce the heap size by 1 every iteration
+            max_heapify(i, 0)
+#+END_SRC
+
+#+BEGIN_SRC java
+public class Solution {
+    public void heapSort(int[] arr) {
+        // Mutates elements in lst by utilizing the heap data structure
+        for (int i = arr.length / 2 - 1; i >= 0; i--) {
+            maxHeapify(arr, arr.length, i);
+        }
+
+        for (int i = arr.length - 1; i > 0; i--) {
+
+            // swap last element with first element
+            int temp = arr[i];
+            arr[i] = arr[0];
+            arr[0] = temp;
+
+            // note that we reduce the heap size by 1 every iteration
+            maxHeapify(arr, i, 0);
+        }
+    }
+
+ private void maxHeapify(int[] arr, int heapSize, int index) {
+        int left = 2 * index + 1;
+        int right = 2 * index + 2;
+        int largest = index;
+
+        if (left < heapSize && arr[left] > arr[largest]) {
+            largest = left;
+        }
+
+        if (right < heapSize && arr[right] > arr[largest]) {
+            largest = right;
+        }
+
+        if (largest != index) {
+            int temp = arr[index]; 
+            arr[index] = arr[largest];
+            arr[largest] = temp;
+            maxHeapify(arr, heapSize, largest);
+        }
+    }
+}
+#+END_SRC
+
+**** Max Heap Implementation
+
+#+BEGIN_SRC python
+
+# Implementing "Max Heap"
+
+class MaxHeap:
+    def __init__(self, heapSize):
+        # Create a complete binary tree using an array
+        # Then use the binary tree to construct a Heap
+        self.heapSize = heapSize
+        # The number of elements is needed when instantiating an array
+        # heapSize records the size of the array
+        self.maxheap = [0] * (heapSize + 1)
+        # realSize records the number of elements in the Heap
+        self.realSize = 0
+
+    # Function to add an element
+    def add(self, element):
+        self.realSize += 1
+        # If the number of elements in the Heap exceeds the preset heapSize
+        if self.realSize > self.heapSize:
+            print("Added too many elements!")
+            self.realSize -= 1
+            return
+
+        # Add the element into the array
+        self.maxheap[self.realSize] = element
+        index = self.realSize
+        parent = index // 2
+
+        # If the newly added element is larger than its parent node,
+        # its value will be exchanged with that of the parent node
+        while self.maxheap[index] > self.maxheap[parent] and index > 1:
+            self.maxheap[parent], self.maxheap[index] = self.maxheap[index], self.maxheap[parent]
+            index = parent
+            parent = index // 2
+
+    # Get the top element of the Heap
+    def peek(self):
+        return self.maxheap[1]
+
+    # Delete the top element of the Heap
+    def pop(self):
+        if self.realSize < 1:
+            print("Don't have any element!")
+            return -sys.maxsize
+        else:
+            removeElement = self.maxheap[1]
+            # Put the last element in the Heap to the top of Heap
+            self.maxheap[1] = self.maxheap[self.realSize]
+            self.realSize -= 1
+            index = 1
+
+            # When the deleted element is not a leaf node
+            while index <= self.realSize // 2:
+                left = index * 2
+                right = (index * 2) + 1
+
+                # If the deleted element is smaller than the left or right child,
+                # its value needs to be exchanged with the larger child
+                if (self.maxheap[index] < self.maxheap[left] or
+                        self.maxheap[index] < self.maxheap[right]):
+                    if self.maxheap[left] > self.maxheap[right]:
+                        self.maxheap[left], self.maxheap[index] = self.maxheap[index], self.maxheap[left]
+                        index = left
+                    else:
+                        self.maxheap[right], self.maxheap[index] = self.maxheap[index], self.maxheap[right]
+                        index = right
+                else:
+                    break
+
+            return removeElement
+
+    # Return the number of elements in the Heap
+    def size(self):
+        return self.realSize
+
+    def __str__(self):
+        return str(self.maxheap[1: self.realSize + 1])
+
+
+if __name__ == "__main__":
+    # Test cases
+    maxHeap = MaxHeap(5)
+    maxHeap.add(1)
+    maxHeap.add(2)
+    maxHeap.add(3)
+    # [3, 1, 2]
+    print(maxHeap)
+    # 3
+    print(maxHeap.peek())
+    # 3
+    print(maxHeap.pop())
+    # 2
+    print(maxHeap.pop())
+    # 1
+    print(maxHeap.pop())
+    maxHeap.add(4)
+    maxHeap.add(5)
+    # [5, 4]
+    print(maxHeap)
+#+END_SRC
+
+**** Min Heap Implementation
+
+#+BEGIN_SRC python
+
+# Implementing "Min Heap"
+
+class MinHeap:
+    def __init__(self, heapSize):
+        # Create a complete binary tree using an array
+        # Then use the binary tree to construct a Heap
+        self.heapSize = heapSize
+        # The number of elements is needed when instantiating an array
+        # heapSize records the size of the array
+        self.minheap = [0] * (heapSize + 1)
+        # realSize records the number of elements in the Heap
+        self.realSize = 0
+
+    # Function to add an element
+    def add(self, element):
+        self.realSize += 1
+        # If the number of elements in the Heap exceeds the preset heapSize
+        if self.realSize > self.heapSize:
+            print("Added too many elements!")
+            self.realSize -= 1
+            return
+
+        # Add the element into the array
+        self.minheap[self.realSize] = element
+        index = self.realSize
+        parent = index // 2
+
+        # If the newly added element is smaller than its parent node,
+        # its value will be exchanged with that of the parent node
+        while self.minheap[index] < self.minheap[parent] and index > 1:
+            self.minheap[parent], self.minheap[index] = self.minheap[index], self.minheap[parent]
+            index = parent
+            parent = index // 2
+
+    # Get the top element of the Heap
+    def peek(self):
+        return self.minheap[1]
+
+    # Delete the top element of the Heap
+    def pop(self):
+        if self.realSize < 1:
+            print("Don't have any element!")
+            return sys.maxsize
+        else:
+            removeElement = self.minheap[1]
+            # Put the last element in the Heap to the top of Heap
+            self.minheap[1] = self.minheap[self.realSize]
+            self.realSize -= 1
+            index = 1
+
+            # When the deleted element is not a leaf node
+            while index <= self.realSize // 2:
+                left = index * 2
+                right = (index * 2) + 1
+
+                # If the deleted element is larger than the left or right child,
+                # its value needs to be exchanged with the smaller child
+                if (self.minheap[index] > self.minheap[left] or
+                        self.minheap[index] > self.minheap[right]):
+                    if self.minheap[left] < self.minheap[right]:
+                        self.minheap[left], self.minheap[index] = self.minheap[index], self.minheap[left]
+                        index = left
+                    else:
+                        self.minheap[right], self.minheap[index] = self.minheap[index], self.minheap[right]
+                        index = right
+                else:
+                    break
+
+            return removeElement
+
+    # Return the number of elements in the Heap
+    def size(self):
+        return self.realSize
+
+    def __str__(self):
+        return str(self.minheap[1: self.realSize + 1])
+
+
+if __name__ == "__main__":
+    # Test cases
+    minHeap = MinHeap(5)
+    minHeap.add(3)
+    minHeap.add(1)
+    minHeap.add(2)
+    # [1, 3, 2]
+    print(minHeap)
+    # 1
+    print(minHeap.peek())
+    # 1
+    print(minHeap.pop())
+    # 2
+    print(minHeap.pop())
+    # 3
+    print(minHeap.pop())
+    minHeap.add(4)
+    minHeap.add(5)
+    # [4, 5]
+    print(minHeap)
+#+END_SRC
+
+
+*** Merge Sort
+
+[[https://www.youtube.com/watch?v=4VqmGXwpLqc&list=PL9xmBV_5YoZOZSbGAXAPIq1BeUf4j20pl&ab_channel=MichaelSambol][Merge sort in 3 minutes - YouTube]]
+
+#+BEGIN_SRC
+mergesort(array a)
+  if (n == 1)
+    return a
+
+  arrayOne = a[0] ...a[n/2]
+  arrayTwo = a[n/2+1] ...a[n]
+
+  arrayOne = mergesort(arrayOne)
+  arrayTwo = mergesort(arrayTwo)
+
+  return merge(arrayOne, arrayTwo)
+
+//O(nlogn)
+#+END_SRC
+
+#+BEGIN_SRC
+merge (array a, array b)
+  array c
+
+  while (a and b have elements)
+    if (a[0] > b[0])
+      add b[0] to the end of c
+      remove b[0] from b
+    else
+      add a[0] to the end of c
+      remove a[0] from a
+
+  // At this point either a or b is empty
+
+   while (a has elements)
+     add a[0] to the end of c
+     remove a[0] from a
+
+   while (b has elements)
+     add b[0] to the end of c
+     remove b[0] from b
+
+   return c
+#+END_SRC
+
+*** Quick Sort
+
+[[https://www.youtube.com/watch?v=Hoixgm4-P4M&list=PL9xmBV_5YoZOZSbGAXAPIq1BeUf4j20pl&index=2&ab_channel=MichaelSambol][Quick sort in 4 minutes - YouTube]]
+
+Quicksort(A as array, low as int, high as int)
+  if (low < high)
+     pivot_location = Partition(A, low, high)
+     Quicksort(A,low,pivot_location)
+     Quicksort(A,pivot_location + 1, high)
+
+Partition(A as array, low as int, high as int)
+  pivot = A[low]
+  leftwall = low
+
+  for i = low + 1 to high
+    if (A[i] < pivot) then
+      swap(A[i],A[leftWall])
+      leftwall = leftwall + 1
+
+  swap(pivot,A[leftwall])
+
+  return(leftwall)
+
+Worst case: O(n^2)
+Average case: O(nlogn)
+
+*** Counting Sort
+
+Time Complexity: O(n + k) where n is the size of the input array and k is the maximum value in the array.
+
+#+BEGIN_SRC python
+class Solution:
+    def counting_sort(self, lst) -> None:
+        """
+        Sorts a list of integers where minimum value is 0 and maximum value is K
+        """
+        K = max(lst)
+        counts = [0] * (K + 1)
+        for elem in lst:
+            counts[elem] += 1
+
+        # Overwrite original counts with the starting index of each element
+        starting_index = 0
+        for i, count in enumerate(counts):
+            counts[i] = starting_index
+            starting_index += count
+
+        sorted_lst = [0] * len(lst)
+        for elem in lst:
+            sorted_lst[counts[elem]] = elem
+            counts[elem] += 1
+
+        # Copy sorted list back into original list
+        for i in range(len(lst)):
+            lst[i] = sorted_lst[i]
+
+class Solution:
+    def counting_sort(self, lst: List[int]) -> None:
+        """
+        Sorts a list of integers (handles shifting of integers to range 0 to K)
+        """
+        shift = min(lst)
+        K = max(lst) - shift
+        counts = [0] * (K + 1)
+        for elem in lst:
+            counts[elem - shift] += 1
+
+        # Overwrite original counts with the starting index of each element
+        starting_index = 0
+        for i, count in enumerate(counts):
+            counts[i] = starting_index
+            starting_index += count
+
+        sorted_lst = [0] * len(lst)
+        for elem in lst:
+            sorted_lst[counts[elem - shift]] = elem
+            counts[elem - shift] += 1
+
+        # Copy sorted list back into original list
+        for i in range(len(lst)):
+            lst[i] = sorted_lst[i]
+        return lst
+#+END_SRC
+
+#+BEGIN_SRC java
+import java.util.Arrays;
+
+public class Solution {
+    public void countingSort(int[] arr) {
+        // Sorts an array of integers where minimum value is 0 and maximum value is K
+        int K = Arrays.stream(arr).max().getAsInt();
+        int[] counts = new int[K + 1];
+        for (int elem : arr) {
+            counts[elem] += 1;
+        }
+
+        // Overwrite original counts with the starting index of each element
+        int startingIndex = 0;
+        for (int i = 0; i < K + 1; i++) {
+            int count = counts[i];
+            counts[i] = startingIndex;
+            startingIndex += count;
+        }
+
+        int[] sortedArray = new int[arr.length];
+        for (int elem : arr) {
+            sortedArray[counts[elem]] = elem;
+            counts[elem] += 1;
+        }
+
+        // Copy sorted list back into original array
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sortedArray[i];
+        }
+    }
+}
+
+public class Solution {
+    public void countingSort(int[] arr) {
+        // Sorts an array of integers (handles shifting of integers to range 0 to K)
+        int shift = Arrays.stream(arr).min().getAsInt();
+        int K = Arrays.stream(arr).max().getAsInt() - shift;
+        int[] counts = new int[K + 1];
+        for (int elem : arr) {
+            counts[elem - shift] += 1;
+        }
+
+        // Overwrite original counts with the starting index of each element
+        int startingIndex = 0;
+        for (int i = 0; i < K + 1; i++) {
+            int count = counts[i];
+            counts[i] = startingIndex;
+            startingIndex += count;
+        }
+
+        int[] sortedArray = new int[arr.length];
+        for (int elem : arr) {
+            sortedArray[counts[elem - shift]] = elem;
+            counts[elem - shift] += 1;
+        }
+
+        // Copy sorted list back into original array
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sortedArray[i];
+        }
+    }
+}
+#+END_SRC
+
+*** Radix Sort (LSD)
+
+#+BEGIN_SRC python
+from typing import List
+
+class Solution:
+    def counting_sort(self, lst: List[int], place_val: int, K: int = 10) -> None:
+        """
+        Sorts a list of integers where the minimum value is 0 and the maximum value is K
+        """
+        # Initialize count array of size K
+        counts = [0] * K
+
+        for elem in lst:
+            digit = (elem // place_val) % 10
+            counts[digit] += 1
+
+        # Overwrite counts with the starting index of each digit
+        starting_index = 0
+        for i, count in enumerate(counts):
+            counts[i] = starting_index
+            starting_index += count
+
+        sorted_lst = [0] * len(lst)
+        for elem in lst:
+            digit = (elem // place_val) % 10
+            sorted_lst[counts[digit]] = elem
+            counts[digit] += 1
+
+        # Copy sorted list back into the original list
+        for i in range(len(lst)):
+            lst[i] = sorted_lst[i]
+
+    def radix_sort(self, lst: List[int]) -> None:
+        # Shift the minimum value in the list to be 0
+        shift = min(lst)
+        lst[:] = [num - shift for num in lst]
+        max_elem = max(lst)
+
+        # Apply the radix sort algorithm
+        place_val = 1
+        while place_val <= max_elem:
+            self.counting_sort(lst, place_val)
+            place_val *= 10
+
+        # Undo the original shift
+        lst[:] = [num + shift for num in lst]
+#+END_SRC
+
+#+BEGIN_SRC java
+import java.util.Arrays;
+
+public class Solution {
+    private static final int NUM_DIGITS = 10;
+
+    public void countingSort(int[] arr, int placeVal) {
+        // Sorts an array of integers where the minimum value is 0 and the maximum value is K
+        int[] counts = new int[NUM_DIGITS];
+
+        for (int elem : arr) {
+            int current = elem / placeVal;
+            counts[current % NUM_DIGITS] += 1;
+        }
+
+        // Overwrite counts with the starting index of each digit
+        int startingIndex = 0;
+        for (int i = 0; i < counts.length; i++) {
+            int count = counts[i];
+            counts[i] = startingIndex;
+            startingIndex += count;
+        }
+
+        int[] sortedArray = new int[arr.length];
+        for (int elem : arr) {
+            int current = elem / placeVal;
+            sortedArray[counts[current % NUM_DIGITS]] = elem;
+            counts[current % NUM_DIGITS] += 1;
+        }
+
+        // Copy sorted list back into the original array
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sortedArray[i];
+        }
+    }
+
+    public void radixSort(int[] arr) {
+        int maxElem = Arrays.stream(arr).max().getAsInt();
+
+        int placeVal = 1;
+        while (maxElem / placeVal > 0) {
+            countingSort(arr, placeVal);
+            placeVal *= 10;
+        }
+    }
+}
+#+END_SRC
+
+The running time of LSD Radix sort requires a few parameters. Let *W* be the maximum digit length within the list of integers. Let *N* be the size of the original input integer array. And lastly, since we are using counting sort, we must also be aware of the alphabet size *K*. In the case of digits, it’s a constant 10, but when applied to other inputs, this alphabet size may change.
+
+With these parameters defined, the running time of LSD radix sort is *O(W(N + K))* as a result of at most *W* calls to counting sort. The amount of extra space needed is the same as counting sort – *O(N + K)*.
+
+**Advantages**:
+- The advantage of LSD radix sort is that for a set of integers and strings with a reasonable *W* and *K*, it can be extraordinarily fast, sorting in close to linear time (when *W* is small).
+- It is also a *stable sort*.
+
+**Disadvantages**:
+- LSD radix sort does require some overhead memory, which when *N* and/or *K* is large, can cause major performance hits when compared to other sorts.
+- Additionally, it does require looking at all digits due to the fact that more significant digits later down the line have more impact on the final sorted result.
+
+Another type of radix sort that's commonly used that uses similar ideas looks at the most significant digit (*MSD*) first and is called **MSD radix sort**. This approach has a better average case and best-case performance than LSD radix sort, though the implementation is significantly trickier.
+
+*** Radix Sort (MSD)
+
+#+BEGIN_SRC python
+def counting_sort_for_radix(input_list, digit_index, radix=10):
+    size = len(input_list)
+    output = [0] * size
+    count = [0] * radix
+
+    for i in range(0, size):
+        index = input_list[i] // radix ** digit_index
+        count[int((index) % radix)] += 1
+
+    for i in range(1, radix):
+        count[i] += count[i - 1]
+
+    i = size - 1
+    while i >= 0:
+        index = input_list[i] // radix ** digit_index
+        output[count[int((index) % radix)] - 1] = input_list[i]
+        count[int((index) % radix)] -= 1
+        i -= 1
+
+    for i in range(0, size):
+        input_list[i] = output[i]
+
+
+def radix_sort_msd(input_list, radix=10):
+    max_val = max(input_list)
+    exp = 0
+    while radix ** exp <= max_val:
+        exp = exp + 1
+
+    for i in range(exp - 1, -1, -1):
+        counting_sort_for_radix(input_list, i, radix)
+#+END_SRC
+
+
+*** Bucket Sort
+
+The worst-case time complexity of bucket sort is *O(N^2)* if the sorting algorithm used on the bucket is insertion sort, which is the most common use case since the expectation is that buckets will not have too many elements relative to the entire list. In the worst case, all elements are placed in one bucket, causing the running time to reduce to the worst-case complexity of insertion sort (all elements are in reverse order).
+
+If the worst-case running time of the intermediate sort used is *O(N log N)*, then the worst-case running time of bucket sort will also be *O(N log N)*.
+
+On average, when the distribution of elements across buckets is reasonably uniform, it can be shown that bucket sort runs on average *O(N + K)* for *K* buckets.
+
+The space complexity is *O(N + K)* since we have to initialize an array of size *K*. The total number of elements stored in this additional array is *N*, since all *N* elements have to go inside a bucket.
+
+#+BEGIN_SRC python
+from typing import List
+
+class Solution:
+    def bucket_sort(self, lst: List[int], K) -> None:
+        """
+        Sorts a list of integers using K buckets
+        """
+        buckets = [[] for _ in range(K)]
+
+        # Place elements into buckets
+        shift = min(lst)
+        max_val = max(lst) - shift
+        bucket_size = max(1, max_val / K)
+
+        for i, elem in enumerate(lst):
+            # Same as K * lst[i] / max(lst)
+            index = (elem - shift) // bucket_size
+            # Edge case for max value
+            if index == K:
+                # Put the max value in the last bucket
+                buckets[K - 1].append(elem)
+            else:
+                buckets[index].append(elem)
+
+        # Sort individual buckets
+        for bucket in buckets:
+            bucket.sort()
+
+        # Convert sorted buckets into final output
+        sorted_array = []
+        for bucket in buckets:
+            sorted_array.extend(bucket)
+
+        # Mutate original array with sorted elements
+        for i in range(len(lst)):
+            lst[i] = sorted_array[i]
+#+END_SRC
+
+#+BEGIN_SRC java
+import java.util.*;
+
+public class Solution {
+    public void bucketSort(int[] arr, int K) {
+        List<List<Integer>> buckets = new ArrayList<>(K);
+
+        int shift = Arrays.stream(arr).min().getAsInt();
+        int maxValue = Arrays.stream(arr).max().getAsInt() - shift;
+
+        // Place elements into buckets
+        double bucketSize = (double) maxValue / K;
+        if (bucketSize < 1) {
+            bucketSize = 1.0;
+        }
+
+        for (int elem : arr) {
+            // Same as K * arr[i] / max(lst)
+            int index = (int) ((elem - shift) / bucketSize);
+            if (index == K) {
+                // Put the max value in the last bucket
+                buckets.get(K - 1).add(elem);
+            } else {
+                buckets.get(index).add(elem);
+            }
+        }
+
+        // Sort individual buckets
+        for (List<Integer> bucket : buckets) {
+            Collections.sort(bucket);
+        }
+
+        // Convert sorted buckets into final output
+        List<Integer> sortedList = new ArrayList<>();
+        for (List<Integer> bucket : buckets) {
+            sortedList.addAll(bucket);
+        }
+
+        // Mutate original array with sorted elements
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sortedList.get(i);
+        }
+    }
+}
+#+END_SRC
+
+** Data Structures
+*** Linked List
+
+[[https://www.youtube.com/watch?v=F8AbOfQwl1c][Linked lists in 4 minutes - YouTube]]
+
+Here we provide a comparison of *time complexity* between the linked list and the array.
+
+| Operation           | Array | Singly-Linked List | Doubly-Linked List |
+|---------------------+-------+--------------------+---------------------|
+| **Access**          |       |                    |                     |
+| by index            | O(1)  | O(N)              | O(N)               |
+| **Add**             |       |                    |                     |
+| before first node   | O(N)  | O(1)              | O(1)               |
+| after given node    | O(N)  | O(1)              | O(1)               |
+| after last node     | O(1)  | O(N)              | O(1)               |
+| **Delete**          |       |                    |                     |
+| the first node      | O(N)  | O(1)              | O(1)               |
+| a given node        | O(N)  | O(1)              | O(1)               |
+| the last node       | O(1)  | O(N)              | O(1)               |
+| **Search**          |       |                    |                     |
+| a given node        | O(N)  | O(N)              | O(N)               |
+
+*Note:* The given time complexities for the Doubly-Linked List assume that the Doubly-Linked List implementation keeps a reference to the tail node. If a reference to the tail node is not kept, then adding a node after the last node or deleting the last node would also require *O(N)* time.
+
+After this comparison, it is not difficult to come up with our conclusion:
+
+- If you need to add or delete a node frequently, a linked list could be a good choice.
+- If you need to access an element by index often, an array might be a better choice than a linked list.
+
+#+BEGIN_SRC python
+class MyLinkedList(object):
+
+    class Node:
+        def __init__(self, val=None):
+            self.val = val
+            self.next = None
+
+    def __init__(self):
+        self.head = None
+
+    def addAtHead(self, val):
+        """
+        :type val: int
+        :rtype: None
+        """
+        new_head = self.Node(val)
+        new_head.next = self.head  # type: ignore
+        self.head = new_head
+
+    def get(self, index):
+        """
+        :type index: int
+        :rtype: int
+        """
+        current_node = self.head
+        for i in range(index):
+            if current_node is None:
+                return -1
+            current_node = current_node.next  # type: ignore
+        if current_node is None:
+            return -1
+        return current_node.val  # type: ignore
+
+    def addAtTail(self, val):
+        """
+        :type val: int
+        :rtype: None
+        """
+        new_node = self.Node(val)
+        if self.head is None:
+            self.head = new_node
+            return
+
+        current_node = self.head
+        while current_node.next is not None:  # type: ignore
+            current_node = current_node.next
+        current_node.next = new_node
+
+    def addAtIndex(self, index, val):
+        """
+        :type index: int
+        :type val: int
+        :rtype: None
+        """
+        if index == 0:
+            self.addAtHead(val)
+            return
+
+        previous_node = self.head
+        for i in range(index - 1):
+            if previous_node is None:
+                return
+            previous_node = previous_node.next
+
+        if previous_node is None:
+            return
+
+        new_node = self.Node(val)
+        new_node.next = previous_node.next
+        previous_node.next = new_node
+
+    def deleteAtIndex(self, index):
+        """
+        :type index: int
+        :rtype: None
+        """
+        if index == 0:
+            self.head = self.head.next
+            return
+
+        previous_node = self.head  # Start from the head
+        for i in range(index - 1):  # Correct the range of the loop
+            if previous_node is None or previous_node.next is None:
+                return
+            previous_node = previous_node.next
+        current_node = previous_node.next
+        if current_node:
+            previous_node.next = current_node.next
+#+END_SRC
+
+*** Queue
+
+https://leetcode.com/explore/learn/card/queue-stack/228/first-in-first-out-data-structure/1366/
+
+#+BEGIN_SRC cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class MyQueue {
+    private:
+        // store elements
+        vector<int> data;
+        // a pointer to indicate the start position
+        int p_start;
+
+    public:
+        MyQueue() { p_start = 0; }
+
+        /** Insert an element into the queue. Return true if the operation is successful. */
+        bool enQueue(int x) {
+            data.push_back(x);
+            return true;
+        }
+
+        /** Delete an element from the queue. Return true if the operation is successful. */
+        bool deQueue() {
+            if (isEmpty()) {
+                return false;
+            }
+            p_start++;
+            return true;
+        }
+
+        /** Get the front item from the queue. */
+        int Front() {
+            return data[p_start];
+        }
+
+        /** Checks whether the queue is empty or not. */
+        bool isEmpty() {
+            return p_start >= data.size();
+        }
+};
+
+int main() {
+    MyQueue q;
+    q.enQueue(5);
+    q.enQueue(3);
+    if (!q.isEmpty()) {
+        cout << q.Front() << endl;
+    }
+    q.deQueue();
+    if (!q.isEmpty()) {
+        cout << q.Front() << endl;
+    }
+    q.deQueue();
+    if (!q.isEmpty()) {
+        cout << q.Front() << endl;
+    }
+}
+#+END_SRC
+
+#+BEGIN_SRC java
+import java.util.*;
+
+class MyQueue {
+    // store elements
+    private List<Integer> data;
+    // a pointer to indicate the start position
+    private int p_start;
+
+    public MyQueue() {
+        data = new ArrayList<Integer>();
+        p_start = 0;
+    }
+
+    /** Insert an element into the queue. Return true if the operation is successful. */
+    public boolean enQueue(int x) {
+        data.add(x);
+        return true;
+    }
+
+    /** Delete an element from the queue. Return true if the operation is successful. */
+    public boolean deQueue() {
+        if (isEmpty() == true) {
+            return false;
+        }
+        p_start++;
+        return true;
+    }
+
+    /** Get the front item from the queue. */
+    public int Front() {
+        return data.get(p_start);
+    }
+
+    /** Checks whether the queue is empty or not. */
+    public boolean isEmpty() {
+        return p_start >= data.size();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyQueue q = new MyQueue();
+        q.enQueue(5);
+        q.enQueue(3);
+        if (q.isEmpty() == false) {
+            System.out.println(q.Front());
+        }
+        q.deQueue();
+        if (q.isEmpty() == false) {
+            System.out.println(q.Front());
+        }
+        q.deQueue();
+        if (q.isEmpty() == false) {
+            System.out.println(q.Front());
+        }
+    }
+}
+#+END_SRC
+
+**** Circular Queue
+
+#+BEGIN_SRC cpp
+#include <vector>
+using namespace std;
+
+class MyCircularQueue {
+private:
+    vector<int> data;
+    int head;
+    int tail;
+    int size;
+
+public:
+    /** Initialize your data structure here. Set the size of the queue to be k. */
+    MyCircularQueue(int k) {
+        data.resize(k);
+        head = -1;
+        tail = -1;
+        size = k;
+    }
+
+    /** Insert an element into the circular queue. Return true if the operation is successful. */
+    bool enQueue(int value) {
+        if (isFull()) {
+            return false;
+        }
+        if (isEmpty()) {
+            head = 0;
+        }
+        tail = (tail + 1) % size;
+        data[tail] = value;
+        return true;
+    }
+
+    /** Delete an element from the circular queue. Return true if the operation is successful. */
+    bool deQueue() {
+        if (isEmpty()) {
+            return false;
+        }
+        if (head == tail) {
+            head = -1;
+            tail = -1;
+            return true;
+        }
+        head = (head + 1) % size;
+        return true;
+    }
+
+    /** Get the front item from the queue. */
+    int Front() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return data[head];
+    }
+
+    /** Get the last item from the queue. */
+    int Rear() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return data[tail];
+    }
+
+    /** Checks whether the circular queue is empty or not. */
+    bool isEmpty() {
+        return head == -1;
+    }
+
+    /** Checks whether the circular queue is full or not. */
+    bool isFull() {
+        return ((tail + 1) % size) == head;
+    }
+};
+#+END_SRC
+
+#+BEGIN_SRC cpp
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+    // 1. Initialize a queue.
+    queue<int> q;
+
+    // 2. Push new elements.
+    q.push(5);
+    q.push(13);
+    q.push(8);
+    q.push(6);
+
+    // 3. Check if the queue is empty.
+    if (q.empty()) {
+        cout << "Queue is empty!" << endl;
+        return 0;
+    }
+
+    // 4. Pop an element.
+    q.pop();
+
+    // 5. Get the first element.
+    cout << "The first element is: " << q.front() << endl;
+
+    // 6. Get the last element.
+    cout << "The last element is: " << q.back() << endl;
+
+    // 7. Get the size of the queue.
+    cout << "The size is: " << q.size() << endl;
+
+    return 0;
+}
+#+END_SRC
+
+#+BEGIN_SRC java
+class MyCircularQueue {
+    private int[] data;
+    private int head;
+    private int tail;
+    private int size;
+
+    /** Initialize your data structure here. Set the size of the queue to be k. */
+    public MyCircularQueue(int k) {
+        data = new int[k];
+        head = -1;
+        tail = -1;
+        size = k;
+    }
+
+    /** Insert an element into the circular queue. Return true if the operation is successful. */
+    public boolean enQueue(int value) {
+        if (isFull()) {
+            return false;
+        }
+        if (isEmpty()) {
+            head = 0;
+        }
+        tail = (tail + 1) % size;
+        data[tail] = value;
+        return true;
+    }
+
+    /** Delete an element from the circular queue. Return true if the operation is successful. */
+    public boolean deQueue() {
+        if (isEmpty()) {
+            return false;
+        }
+        if (head == tail) {
+            head = -1;
+            tail = -1;
+            return true;
+        }
+        head = (head + 1) % size;
+        return true;
+    }
+
+    /** Get the front item from the queue. */
+    public int Front() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return data[head];
+    }
+
+    /** Get the last item from the queue. */
+    public int Rear() {
+        if (isEmpty()) {
+            return -1;
+        }
+        return data[tail];
+    }
+
+    /** Checks whether the circular queue is empty or not. */
+    public boolean isEmpty() {
+        return head == -1;
+    }
+
+    /** Checks whether the circular queue is full or not. */
+    public boolean isFull() {
+        return ((tail + 1) % size) == head;
+    }
+}
+#+END_SRC
+
+#+BEGIN_SRC java
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 1. Initialize a queue.
+        Queue<Integer> q = new LinkedList<>();
+
+        // 2. Get the first element - return null if queue is empty.
+        System.out.println("The first element is: " + q.peek());
+
+        // 3. Push new elements.
+        q.offer(5);
+        q.offer(13);
+        q.offer(8);
+        q.offer(6);
+
+        // 4. Pop an element.
+        q.poll();
+
+        // 5. Get the first element.
+        System.out.println("The first element is: " + q.peek());
+
+        // 6. Get the size of the queue.
+        System.out.println("The size is: " + q.size());
+    }
+}
+#+END_SRC
+
+
+*** Hash Set
+
+#+BEGIN_SRC python
+class MyHashSet:
+
+ # Python3: My Implementation
+
+    def __init__(self):
+        self.hashSet = set()
+
+    def add(self, key: int) -> None:
+        self.hashSet.add(key)
+
+    def remove(self, key: int) -> None:
+        self.hashSet.discard(key)
+
+    def contains(self, key: int) -> bool:
+        return key in self.hashSet
+#+END_SRC
+
+#+BEGIN_SRC python
+# Python3: Leetcode Implementation
+
+# 1. initialize the hash set
+hashset = set()
+
+# 2. add a new key
+hashset.add(3)
+hashset.add(2)
+hashset.add(1)
+
+# 3. remove a key
+hashset.remove(2)
+
+# 4. check if the key is in the hash set
+if (2 not in hashset):
+    print("Key 2 is not in the hash set.")
+
+# 5. get the size of the hash set
+print("Size of hashset is:", len(hashset))
+
+# 6. iterate the hash set
+for x in hashset:
+    print(x, end=" ")
+print("are in the hash set.")
+
+# 7. clear the hash set
+hashset.clear()
+print("Size of hashset:", len(hashset))
+#+END_SRC
+
+#+BEGIN_SRC java
+// "static void main" must be defined in a public class.
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 1. initialize the hash set
+        Set<Integer> hashSet = new HashSet<>();
+
+        // 2. add a new key
+        hashSet.add(3);
+        hashSet.add(2);
+        hashSet.add(1);
+
+        // 3. remove the key
+        hashSet.remove(2);
+
+        // 4. check if the key is in the hash set
+        if (!hashSet.contains(2)) {
+            System.out.println("Key 2 is not in the hash set.");
+        }
+
+        // 5. get the size of the hash set
+        System.out.println("The size of hash set is: " + hashSet.size());
+
+        // 6. iterate the hash set
+        for (Integer i : hashSet) {
+            System.out.print(i + " ");
+        }
+        System.out.println("are in the hash set.");
+
+        // 7. clear the hash set
+        hashSet.clear();
+
+        // 8. check if the hash set is empty
+        if (hashSet.isEmpty()) {
+            System.out.println("hash set is empty now!");
+        }
+    }
+}
+#+END_SRC
+
+#+BEGIN_SRC cpp
+#include <unordered_set>
+#include <iostream>
+using namespace std;
+
+int main() {
+    // 1. initialize a hash set
+    unordered_set<int> hashset;
+
+    // 2. insert a new key
+    hashset.insert(3);
+    hashset.insert(2);
+    hashset.insert(1);
+
+    // 3. delete a key
+    hashset.erase(2);
+
+    // 4. check if the key is in the hash set
+    if (hashset.count(2) <= 0) {
+        cout << "Key 2 is not in the hash set." << endl;
+    }
+
+    // 5. get the size of the hash set
+    cout << "The size of hash set is: " << hashset.size() << endl;
+
+    // 6. iterate the hash set
+    for (auto it = hashset.begin(); it != hashset.end(); ++it) {
+        cout << (*it) << " ";
+    }
+    cout << "are in the hash set." << endl;
+
+    // 7. clear the hash set
+    hashset.clear();
+
+    // 8. check if the hash set is empty
+    if (hashset.empty()) {
+        cout << "hash set is empty now!" << endl;
+    }
+}
+#+END_SRC
+
+
+*** Hash Map
+
+#+BEGIN_SRC python
+# Python3: My Implementation
+class MyHashMap:
+
+    def __init__(self):
+        self.h = {}
+
+    def put(self, key: int, value: int) -> None:
+        if key not in self.h:
+            self.h[key] = value
+        else:
+            self.h[key] = value
+
+    def get(self, key: int) -> int:
+        if key not in self.h:
+            return -1
+        return self.h[key]
+
+    def remove(self, key: int) -> None:
+        if key in self.h:
+            del self.h[key]
+#+END_SRC
+
+#+BEGIN_SRC python
+ # Python3: Leetcode Implementation
+# 1. initialize a hash map
+hashmap = {0: 0, 2: 3}
+
+# 2. insert a new (key, value) pair or update the value of an existing key
+hashmap[1] = 1
+hashmap[1] = 2
+
+# 3. get the value of a key
+print("The value of key 1 is: " + str(hashmap[1]))
+
+# 4. delete a key
+del hashmap[2]
+
+# 5. check if a key is in the hash map
+if 2 not in hashmap:
+    print("Key 2 is not in the hash map.")
+
+# 6. both key and value can have different types in a hash map
+hashmap["pi"] = 3.1415
+
+# 7. get the size of the hash map
+print("The size of hash map is: " + str(len(hashmap)))
+
+# 8. iterate the hash map
+for key in hashmap:
+    print("(" + str(key) + "," + str(hashmap[key]) + ")", end=" ")
+print("are in the hash map.")
+
+# 9. get all keys in hash map
+print(hashmap.keys())
+
+# 10. clear the hash map
+hashmap.clear()
+print("The size of hash map is: " + str(len(hashmap)))
+#+END_SRC
+
+#+BEGIN_SRC java
+// "static void main" must be defined in a public class.
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        // 1. initialize a hash map
+        Map<Integer, Integer> hashmap = new HashMap<>();
+
+        // 2. insert a new (key, value) pair
+        hashmap.putIfAbsent(0, 0);
+        hashmap.putIfAbsent(2, 3);
+
+        // 3. insert a new (key, value) pair or update the value of an existing key
+        hashmap.put(1, 1);
+        hashmap.put(1, 2);
+
+        // 4. get the value of a specific key
+        System.out.println("The value of key 1 is: " + hashmap.get(1));
+
+        // 5. delete a key
+        hashmap.remove(2);
+
+        // 6. check if a key is in the hash map
+        if (!hashmap.containsKey(2)) {
+            System.out.println("Key 2 is not in the hash map.");
+        }
+
+        // 7. get the size of the hash map
+        System.out.println("The size of hash map is: " + hashmap.size());
+
+        // 8. iterate the hash map
+        for (Map.Entry<Integer, Integer> entry : hashmap.entrySet()) {
+            System.out.print("(" + entry.getKey() + "," + entry.getValue() + ") ");
+        }
+        System.out.println("are in the hash map.");
+
+        // 9. clear the hash map
+        hashmap.clear();
+
+        // 10. check if the hash map is empty
+        if (hashmap.isEmpty()) {
+            System.out.println("hash map is empty now!");
+        }
+    }
+}
+#+END_SRC
+
+#+BEGIN_SRC cpp
+#include <unordered_map>
+#include <iostream>
+using namespace std;
+
+int main() {
+    // 1. initialize a hash map
+    unordered_map<int, int> hashmap;
+
+    // 2. insert a new (key, value) pair
+    hashmap.insert(make_pair(0, 0));
+    hashmap.insert(make_pair(2, 3));
+
+    // 3. insert a new (key, value) pair or update the value of an existing key
+    hashmap[1] = 1;
+    hashmap[1] = 2;
+
+    // 4. get the value of a specific key
+    cout << "The value of key 1 is: " << hashmap[1] << endl;
+
+    // 5. delete a key
+    hashmap.erase(2);
+
+    // 6. check if a key is in the hash map
+    if (hashmap.count(2) <= 0) {
+        cout << "Key 2 is not in the hash map." << endl;
+    }
+
+    // 7. get the size of the hash map
+    cout << "The size of hash map is: " << hashmap.size() << endl;
+
+    // 8. iterate the hash map
+    for (auto it = hashmap.begin(); it != hashmap.end(); ++it) {
+        cout << "(" << it->first << "," << it->second << ") ";
+    }
+    cout << "are in the hash map." << endl;
+
+    // 9. clear the hash map
+    hashmap.clear();
+
+    // 10. check if the hash map is empty
+    if (hashmap.empty()) {
+        cout << "hash map is empty now!" << endl;
+    }
+}
+#+END_SRC
