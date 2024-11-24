@@ -1,0 +1,55 @@
+* 🧩 My LeetCode Solutions
+
+Contains documented solutions to algorithmic problems. The solutions reflect my thought process, approach, and learnings.
+
+Progress is automatically synced using [[https://github.com/raphaelheinz/LeetHub-3.0][LeetHub-3.0]] by [[https://github.com/raphaelheinz][Raphael Heinz]].
+
+** Motivation
+
+LeetCode became part of my daily routine while preparing for internship objective assessments. Transformed from an intense daily grind into a therapeutic learning activity that replaced morning newspaper crossword puzzles and boring books.
+
+Also used as practice to learn:
+- Computer science history
+- Syntax for various programming languages
+- Project Management
+- Information Organization
+- Diagramming Tools like Excalidraw and Mermaid
+- Technical note-taking with Markdown and Org-mode
+
+** Thoughts
+
+I've long since transitioned to business-logic-heavy projects. I don't feel that LeetCode has really made me a better 'programmer' overall in the context of those kinds of challenges faced.
+
+I used it mostly to learn Vim and SurfingKeys, and to rid myself of some of the stress incurred from receiving an objective assessment in my email inbox after applying to a role.
+
+I've been of the opinion that LeetCode isn't very useful. Having re-visited it after a while and doing some deep reflection, I can confirm the following benefits:
+
+- I was writing cleaner code.
+- Caring about every last bit of performance both in terms of time and memory became a habit.
+  - This paid off on numerous occasions, such as:
+    - Performance debugging on React front-ends with virtual DOM re-renders.
+    - Working with low-level languages on hardware with limited clock cycles and memory.
+- I learned to solve the core problem first on a conceptual level, and doing the implementation after.
+  - I built a habit of not jumping into writing code and struggling with syntax.
+    - I was able to solve more problems independently with this approach.
+  - Even if I wasn't able to implement the solution in code, I found that my approach was correct when reading solutions from others.
+- I got better at thoroughly and carefully investigating various approaches, considering the thought processes of others, and thinking about tradeoffs in various scenarios.
+  - I successfully avoided writing many thousands of lines of code due to this approach.
+- I got better at reading documentation written in various styles by various people.
+  - Solutions would contain code, and therefore I got better at reading code by reading lots of it.
+  - I began to pick up new digital skills and technologies quicker by quickly skimming documentation for key points.
+- I began using diagrams to effectively communicate complex scenarios and my interpretations of them to others.
+- My cognitive skills improved drastically.
+  - I began recognizing patterns faster.
+  - I began to catch edge cases and eliminate possibilities quicker.
+  - I noticed that my memory improved.
+    - By watching lots of NeetCode, I became better at focused listening and retained information better.
+  - Even if I didn't come up with the solution instantly, the patterns I recognized early served as building blocks and carved a path.
+- I felt first-hand why different programming languages have the philosophies they do, where they excel, and where they fall short.
+- I got better at Vim by being incentivized to use less keystrokes under time pressure.
+- I was greatly struggling to maintain a productive daily routine after leaving my past career behind. Consistent LeetCoding brought some structure and discipline back into my life.
+  - LeetCode was another card on the Trello Kanban board that served as a source of confidence and happiness as I gamified the process of completing daily tasks and getting better at managing life digitally.
+
+Nowadays I use LeetCode as a refreshing break in my daily routine when I'm bored. It’s a space where I can focus on the purity of algorithms and problem-solving without the complexities of project dependencies, requirements, uncertainties, and people.
+  
+I also stumbled upon Competitive Programming through LeetCode, and am hoping to work my way up to it one day.
